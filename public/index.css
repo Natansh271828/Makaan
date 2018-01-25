@@ -1,0 +1,155 @@
+
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+
+html{
+    height: 100vh;
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100%;
+    margin: 0px;
+   
+}
+
+
+#main_logo{
+
+    text-align: center;
+    height: 40%;
+}
+
+#main_logo img{
+    position:relative;
+    top: calc(100% - 50px);
+    bottom: 20px;
+}
+
+ #navbar{  
+    text-align: center;
+}
+
+/* #navbar span{
+    display: inline-block;
+}
+
+
+#search_input{
+    height: 45px;
+    width: 300px;
+}
+
+#filters{
+    height: 45px;
+}
+#search_button{
+    height: 45px;
+} */
+
+
+menu {
+    margin-top: 15px;
+  }
+  
+  .menu > li {
+    display: inline-block;
+   
+  }
+  /*----Button Syling------------------------------------*/
+  .menu > li:last-of-type {
+      color: white;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+    margin-right: 0;
+    background-color: #EC142E
+  }
+  #type{
+    font-family: 'Assistant', sans-serif; 
+      color: white;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+     background-color: #EC142E;
+    padding: 15px;
+    
+}
+/* #search_button{
+    cursor: pointer;
+    padding: 15px;
+} */
+#search_button > a{
+    display: block;
+    font-family: 'Assistant', sans-serif;
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+}
+/* #search_term{
+    width: 50px;
+} */
+
+.features-menu {                   
+    display: none;
+  }
+.dropdown:hover .features-menu { 
+    display: flex;
+    flex-direction: column;
+    background: #EC142E;
+    border-radius: 5px;
+    padding-top: 60px;
+    position: absolute;      
+    /* top: -25px; */
+    top: -15px;
+    /* left: -30px; */
+    z-index: 1;
+  }
+  
+  .features-menu li {
+    color: white;
+    font-family: 'Assistant', sans-serif;
+    list-style: none;
+    border-bottom: 1px solid #FFF;
+    margin: 10px;
+    padding: 0 25px 10px 20px;
+    
+  }
+  
+  .features-menu li:last-of-type {
+    border-bottom: none;
+  }
+  .dropdown {
+    position: relative;
+    padding-right: 0 0;
+  }
+  .dropdown > span {
+    z-index: 2;
+    position: relative;  /* This is important! */
+    cursor: pointer;
+  }
+  #search_term{
+      border: none;
+      width: 660px;
+      height: 48px;
+      font-size: 16px;
+      padding: 5px;
+      outline: none;
+  }
+
+  #input_container{
+      padding: 0px;
+  }
+
+  #menu_container{
+    display: inline-block;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 2px 17px -4px rgba(0,0,0,0.39);
+    -moz-box-shadow: 0px 2px 17px -4px rgba(0,0,0,0.39);
+    box-shadow: 0px 2px 17px -4px rgba(0,0,0,0.39);
+  }
