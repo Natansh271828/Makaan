@@ -41,8 +41,10 @@ box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.53);
     display: flex;
     padding: 2px;
     justify-content: space-between;
+    width: 292px;
 }
 .card_seller_image{
+    background-size: cover;
     width: 44px;
     height: 44px;
 }
@@ -59,4 +61,14 @@ box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.53);
 }
 .card_description{
     padding: 5px;
+}
+
+.card_description p {
+    white-space:nowrap;
+    overflow:hidden;
+}
+.seller_info{
+    width: 182px;
+    overflow: hidden;
+    white-space: nowrap;
 }
