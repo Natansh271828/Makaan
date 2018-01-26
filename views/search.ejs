@@ -7,19 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="header.css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="search.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="navbar.css"/>
     <script src="search.js"></script>
 
-    <script>
-    
+    <style>
+        *{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+
+    <script> 
+
     function URL_add_parameter( param, value){
     var url        = location.href;
     var hash       = {};
     var parser     = document.createElement('a');
-
     parser.href    = url;
-
     var parameters = parser.search.split(/\?|&/);
-
     for(var i=0; i < parameters.length; i++) {
         if(!parameters[i])
             continue;
@@ -27,106 +31,34 @@
         var ary      = parameters[i].split('=');
         hash[ary[0]] = ary[1];
     }
-
     hash[param] = value;
-
     var list = [];  
     Object.keys(hash).forEach(function (key) {
         list.push(key + '=' + hash[key]);
     });
-
     parser.search = '?' + list.join('&');
      location.href =  parser.href;
      //alert(location.href);
-    }
-    
+    }  
     </script>
-
-
-
-    <style>
-    .navbar {
-        overflow: hidden;
-        background-color: #333;
-        font-family: Arial;
-        display: flex;
-        justify-content: space-between; 
-    }
-    
-    .navbar a {
-        
-        float: left;
-        font-size: 16px;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-    }
-    
-    .dropdown_sub {
-        float: left;
-        overflow: hidden;
-    }
-    
-    .dropdown_sub .dropbtn {
-        font-size: 16px;    
-        border: none;
-        outline: none;
-        color: white;
-        padding: 14px 16px;
-        background-color: inherit;
-        font: inherit;
-        margin: 0;
-    }
-    
-    .navbar a:hover, .dropdown_sub:hover .dropbtn {
-        background-color: red;
-    }
-    
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f9f9f9;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
-    }
-    
-    .dropdown-content a {
-        float: none;
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-        text-align: left;
-    }
-    
-    .dropdown-content a:hover {
-        background-color: #ddd;
-    }
-    
-    .dropdown_sub:hover .dropdown-content {
-        display: block;
-    }
-    </style>
-
 </head>
 <body>
     <% include partials/header %>
     <div class="navbar">
         <div>
-            <a href="">Buy</a>
-            <a href="#news">Rent</a>
+            <a href="javascript:URL_add_parameter('listingType','buy');">Buy</a>
+            <a href="javascript:URL_add_parameter('listingType','rental');">Rent</a>
 
             <div class="dropdown_sub">
                     <button class="dropbtn">Bedrooms 
                       <i class="fa fa-caret-down"></i>
                     </button>
                     <div class="dropdown-content">
-                      <a href="#">1 BHK</a>
-                      <a href="#">2 BHK</a>
-                      <a href="#">3 BHK</a>
-                      <a href="#">4+ BHK</a>                      
+                      <a href="javascript:URL_add_parameter('beds','1');">1 BHK</a>
+                      <a href="javascript:URL_add_parameter('beds','2');">2 BHK</a>
+                      <a href="javascript:URL_add_parameter('beds','3');">3 BHK</a>
+                      <a href="javascript:URL_add_parameter('beds','4plus');">4+ BHK</a>
+                      <a href="javascript:URL_add_parameter('beds','any');">any</a>                       
                     </div>
                   </div> 
 
@@ -144,6 +76,30 @@
                         </div>
                     </div>     
 
+                    <div class="dropdown_sub">
+                            <button class="dropbtn">Price 
+                              <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="dropdown-content">   
+                               <div class="pricing-container">
+                                  <div id=".min-pricing"> 
+                                        <a href="javascript:URL_add_parameter('min_pricing','10000');">10k</a>
+                                        <a href="javascript:URL_add_parameter('min_pricing','100000');">1 L</a>
+                                        <a href="javascript:URL_add_parameter('min_pricing','1000000');">10 L</a>
+                                        <a href="javascript:URL_add_parameter('min_pricing','10000000');">1 Cr</a> 
+                                        <a href="javascript:URL_add_parameter('min_pricing','100000000');">10 Cr+</a>                                                                                                                       
+                                        
+                                </div>
+                                <div id=".max-pricing"> 
+                                        <a href="javascript:URL_add_parameter('max_pricing','10000');">10k</a>
+                                        <a href="javascript:URL_add_parameter('max_pricing','100000');">1 L</a>
+                                        <a href="javascript:URL_add_parameter('max_pricing','1000000');">10 L</a>
+                                        <a href="javascript:URL_add_parameter('max_pricing','10000000');">1 Cr</a> 
+                                        <a href="javascript:URL_add_parameter('max_pricing','100000000');">10 Cr</a>                              </div>
+                            </div> 
+                            </div>
+                    </div> 
+
         </div>
             <div class="dropdown_sub">
               <button class="dropbtn">Dropdown 
@@ -159,7 +115,7 @@
                 </div>
             </div> 
           </div>
-    <a href="/search?sort=asc"><button>sort asc</button></a>
+    
 
     
      <%- html %>  
