@@ -115,10 +115,10 @@ app.get("/",function(req,res){
 var htmlResponse = `<div>Hello World</div>`;
 
 
-function queryApi(selector,res){
+function queryApi(newSelector,res){
 
-    let makaan =  webAddress + JSON.stringify(selector) + addressEnd;
-    console.log(makaan);
+    let makaan =  webAddress + JSON.stringify(newSelector) + addressEnd;
+    //console.log(makaan);
     request(makaan, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             let jsonResponse =  JSON.parse(body);
@@ -205,11 +205,16 @@ app.get("/search",function(req,res){
          }else if(qdata.sort === "date"){
             newSelector.sort =  [{"field":"listingDisplayDate","sortOrder":"DESC"}];
          }
+         else{
+             if(newSelector.sort)
+             delete newSelector.sort;
+         }
+         
     }
 
     if(qdata.listingType){
         if(qdata.listingType === "rental"){
-            newSelector.filters.and[1].equal.listingCategory = ["Rental"] ;
+            newSelector.filters.and[1].equal.listingCategory = ["Rental"];
 
 
         }

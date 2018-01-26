@@ -8,9 +8,157 @@
     <link rel="stylesheet" type="text/css" media="screen" href="header.css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="search.css"/>
     <script src="search.js"></script>
+
+    <script>
+    
+    function URL_add_parameter( param, value){
+    var url        = location.href;
+    var hash       = {};
+    var parser     = document.createElement('a');
+
+    parser.href    = url;
+
+    var parameters = parser.search.split(/\?|&/);
+
+    for(var i=0; i < parameters.length; i++) {
+        if(!parameters[i])
+            continue;
+
+        var ary      = parameters[i].split('=');
+        hash[ary[0]] = ary[1];
+    }
+
+    hash[param] = value;
+
+    var list = [];  
+    Object.keys(hash).forEach(function (key) {
+        list.push(key + '=' + hash[key]);
+    });
+
+    parser.search = '?' + list.join('&');
+     location.href =  parser.href;
+     //alert(location.href);
+    }
+    
+    </script>
+
+
+
+    <style>
+    .navbar {
+        overflow: hidden;
+        background-color: #333;
+        font-family: Arial;
+        display: flex;
+        justify-content: space-between; 
+    }
+    
+    .navbar a {
+        
+        float: left;
+        font-size: 16px;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+    
+    .dropdown_sub {
+        float: left;
+        overflow: hidden;
+    }
+    
+    .dropdown_sub .dropbtn {
+        font-size: 16px;    
+        border: none;
+        outline: none;
+        color: white;
+        padding: 14px 16px;
+        background-color: inherit;
+        font: inherit;
+        margin: 0;
+    }
+    
+    .navbar a:hover, .dropdown_sub:hover .dropbtn {
+        background-color: red;
+    }
+    
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+    
+    .dropdown-content a {
+        float: none;
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+    }
+    
+    .dropdown-content a:hover {
+        background-color: #ddd;
+    }
+    
+    .dropdown_sub:hover .dropdown-content {
+        display: block;
+    }
+    </style>
+
 </head>
 <body>
     <% include partials/header %>
+    <div class="navbar">
+        <div>
+            <a href="">Buy</a>
+            <a href="#news">Rent</a>
+
+            <div class="dropdown_sub">
+                    <button class="dropbtn">Bedrooms 
+                      <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                      <a href="#">1 BHK</a>
+                      <a href="#">2 BHK</a>
+                      <a href="#">3 BHK</a>
+                      <a href="#">4+ BHK</a>                      
+                    </div>
+                  </div> 
+
+                  <div class="dropdown_sub">
+                        <button class="dropbtn">Sort By 
+                          <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div class="dropdown-content">
+                          <a href="javascript:URL_add_parameter('sort','relevance');">Relevance</a>
+                          <a href="javascript:URL_add_parameter('sort','popularity');">Popularity</a>
+                          <a href="javascript:URL_add_parameter('sort','price-desc');">Price Desc</a>
+                          <a href="javascript:URL_add_parameter('sort','price-asc');">Price Asc</a>
+                          <a href="javascript:URL_add_parameter('sort','rating');">Seller Rating</a>
+                          <a href="javascript:URL_add_parameter('sort','date');">Date Posted</a>
+                        </div>
+                    </div>     
+
+        </div>
+            <div class="dropdown_sub">
+              <button class="dropbtn">Dropdown 
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-content">
+                    <a href="#">Relevance</a>
+                    <a href="#">Popularity</a>
+                    <a href="#">Price Desc</a>
+                    <a href="#">Price Asc</a>
+                    <a href="#">Seller Rating</a>
+                    <a href="#">Date Posted</a>
+                </div>
+            </div> 
+          </div>
     <a href="/search?sort=asc"><button>sort asc</button></a>
 
     
