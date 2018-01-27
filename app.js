@@ -14,14 +14,37 @@ var generalSelector = selector;
 /*
 *CardInfo Object contains information about the card; 
 */
-function CardInfo(image,sellerInfo,heading,pricing,general,description){
+function CardInfo(image,sellerInfo,heading,pricing,general,description,resaleURL){
     this.image = image;
     this.sellerInfo = sellerInfo;
     this.heading = heading;
     this.pricing = pricing;
     this.general = general;
     this.description = description;
+    this.resaleURL = resaleURL;
 }
+
+
+function convertPrice(val){
+    for(let divisor = 1000; divisor <= 1000000000;){
+
+        let result = val/divisor;
+        result = result.toFixed(2);
+        if( result < 100){
+            if(divisor === 1000){
+                return result.toString() + "K";
+            }
+            else if(divisor === 100000){
+                return result.toString() + "L";
+            }
+            else{
+                return result.toString() + "Cr"
+            }    
+        }
+        divisor = divisor*100;
+    }
+}
+
 
 /*
 Template being used to make cards
@@ -33,6 +56,11 @@ function Template(card){
     this.heading = card.heading;
     this.pricing = card.pricing;
     this.general = card.general;
+    this.resaleURL = card.resaleURL;
+
+    
+
+
 
     if(this.sellerInfo[1].length > 25){
         this.sellerInfo[1] = this.sellerInfo[1].substring(0,25) + "...";
@@ -40,7 +68,7 @@ function Template(card){
     this.sellerInfo[2] = this.sellerInfo[2].toString().split('_').join(' ');
 
     this.description = card.description.substring(0,60);
-    this.html =  `<div class="card_container"><div class="card">
+    this.html =  `<div class="card_container" onclick="moveTo('${this.resaleURL}')"><div class="card">
     <div class="card_left_div">
         <div class="card_image" style="background-image:url('${this.image}')"></div>
         <div class="card_seller_info">
@@ -60,7 +88,7 @@ function Template(card){
         <div class="card_highlights_wrap">
             <div class="card_highlights">
                 <div class="price">
-                     <div class="total_price">${this.pricing[0]}</div>
+                     <div class="total_price">${convertPrice(this.pricing[0])}</div>
                     <div class="price_per_sq">${this.pricing[1]}/sqft</div>
                 </div>
                 <div class="area">
@@ -117,12 +145,12 @@ app.get("/",function(req,res){
 });
 
 var htmlResponse = `<div>Hello World</div>`;
-
+var lookingForRental = false;
 
 function queryApi(newSelector,res){
 
     let makaan =  webAddress + JSON.stringify(newSelector) + addressEnd;
-    console.log(makaan);
+    //console.log(makaan);
     request(makaan, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             let jsonResponse =  JSON.parse(body);
@@ -136,6 +164,9 @@ function queryApi(newSelector,res){
                     let pricing = [];
                     let generalInfo = [];
                     let description;
+                    let resaleURL = currentItem.resaleURL;
+
+                    console.log(resaleURL);
                     /*Seller Info*/
                     sellerInfo.push(currentItem.companySeller.user.profilePictureURL);
                     sellerInfo.push(currentItem.companySeller.user.fullName);
@@ -185,18 +216,18 @@ function queryApi(newSelector,res){
 
                     //decription
                     description = currentItem.description;
-                cardInfoArray.push(new CardInfo(currentItem.mainImageURL,sellerInfo,heading,pricing,generalInfo,description));
+                cardInfoArray.push(new CardInfo(currentItem.mainImageURL,sellerInfo,heading,pricing,generalInfo,description,resaleURL));
             }  
         let theAdapter = new Adapter(cardInfoArray);
         htmlResponse = theAdapter.makeHtml();
-        res.render("search",{html: htmlResponse } );
+        res.render("search",{html: htmlResponse, rental:lookingForRental  } );
         }
    });
 
 
 }
 
-var lookingForRental = false;
+
 app.get("/search",function(req,res){
 
     let q = url.parse(req.url, true);
