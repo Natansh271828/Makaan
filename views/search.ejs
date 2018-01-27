@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="header.css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="search.css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="navbar.css"/>
+    <script src="jquery-3.3.1.min.js"></script>
     <script src="search.js"></script>
 
     <style>
@@ -18,29 +19,29 @@
 
  <script> 
 
-    function URL_add_parameter( param, value){
+    // function URL_add_parameter( param, value){
         
-    var url        = location.href;
-    var hash       = {};
-    var parser     = document.createElement('a');
-    parser.href    = url;
-    var parameters = parser.search.split(/\?|&/);
-    for(var i=0; i < parameters.length; i++) {
-        if(!parameters[i])
-            continue;
+    // var url        = location.href;
+    // var hash       = {};
+    // var parser     = document.createElement('a');
+    // parser.href    = url;
+    // var parameters = parser.search.split(/\?|&/);
+    // for(var i=0; i < parameters.length; i++) {
+    //     if(!parameters[i])
+    //         continue;
 
-        var ary      = parameters[i].split('=');
-        hash[ary[0]] = ary[1];
-    }
-    hash[param] = value;
-    var list = [];  
-    Object.keys(hash).forEach(function (key) {
-        list.push(key + '=' + hash[key]);
-    });
-    parser.search = '?' + list.join('&');
-    location.href =  parser.href;
-     //alert(location.href);
-    }  
+    //     var ary      = parameters[i].split('=');
+    //     hash[ary[0]] = ary[1];
+    // }
+    // hash[param] = value;
+    // var list = [];  
+    // Object.keys(hash).forEach(function (key) {
+    //     list.push(key + '=' + hash[key]);
+    // });
+    // parser.search = '?' + list.join('&');
+    // location.href =  parser.href;
+    //  //alert(location.href);
+    // }  
 
     function moveTo(a){
        // alert(a);
@@ -136,20 +137,66 @@
 
     <div class="result-container">
             <%- html %> 
+            <div class="pagination">
+
+            </div>
     </div>
     
     <script>
         var rental = <%= rental %>;  
-        
+        var totalPages = <%= pages %>;
+        var currentPage = <%= pageNumber %>;
+        var pages = Math.floor(totalPages/20);
+        var paginationDiv = document.getElementsByClassName("pagination")[0];
         //alert(typeof rental);
         if(rental)
         document.getElementById('rent').style.color =  "#ff0000";
         else
         document.getElementById('buy').style.color = "#ff0000";
+        if(currentPage > 1){
+
+            let a = document.createElement("a");
+            a.href = `javascript:URL_add_parameter("page", ${currentPage  - 1})`;
+            a.innerHTML = "<";
+            paginationDiv.appendChild(a);
+
+        }
+        if(currentPage >= 3)
+        for(let i = currentPage - 2; i <= currentPage; i++){
+           
+                let a = document.createElement("a");
+                a.href = `javascript:URL_add_parameter("page", ${i})`;
+                a.innerHTML = i;
+                if(i === currentPage){
+                    a.style.color = "#ff0011af";
+                }
+            
+            paginationDiv.appendChild(a);
+        }
+
+        if(currentPage <= pages - 2)
+        for(let i = currentPage + 1; i < currentPage + 4; i++){
+            let a = document.createElement("a");
+            a.href = `javascript:URL_add_parameter("page", ${i})`;
+            a.innerHTML = i;
+            paginationDiv.appendChild(a);
+        }
+
+        if(currentPage != pages){
+            let span = document.createElement("span");
+            span.innerHTML = "...";
+            paginationDiv.appendChild(span);
+            let a = document.createElement("a");
+            a.href = `javascript:URL_add_parameter("page", ${pages})`;
+            a.innerHTML = pages;
+            paginationDiv.appendChild(a);
+            let b = document.createElement("a");
+            b.href = `javascript:URL_add_parameter("page", ${currentPage  + 1})`;
+            b.innerHTML = ">";
+            paginationDiv.appendChild(b);
+        }       
 
     </script>
-
-
 <!-- 
 <div class="card_container">
    <div class="card">

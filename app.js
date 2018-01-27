@@ -11,6 +11,7 @@ var selector = {"fields":["localityId","displayDate","listing","property","proje
 // var CardInfo = require("./Classes/CardInfo");
 var app = express();
 var generalSelector = selector;
+var currentPage = 1;
 /*
 *CardInfo Object contains information about the card; 
 */
@@ -65,7 +66,8 @@ function Template(card){
     if(this.sellerInfo[1].length > 25){
         this.sellerInfo[1] = this.sellerInfo[1].substring(0,25) + "...";
     }
-    this.sellerInfo[2] = this.sellerInfo[2].toString().split('_').join(' ');
+    if(this.sellerInfo[2])
+        this.sellerInfo[2] = this.sellerInfo[2].toString().split('_').join(' ');
 
     this.description = card.description.substring(0,60);
     this.html =  `<div class="card_container" onclick="moveTo('${this.resaleURL}')"><div class="card">
@@ -153,7 +155,9 @@ function queryApi(newSelector,res){
     //console.log(makaan);
     request(makaan, function (error, response, body) {
         if (!error && response.statusCode == 200) {
+            
             let jsonResponse =  JSON.parse(body);
+            let totalCount = jsonResponse.data[0].totalCount;
             jsonResponse = jsonResponse.data[0].facetedResponse;
             
             let cardInfoArray = [];
@@ -220,7 +224,7 @@ function queryApi(newSelector,res){
             }  
         let theAdapter = new Adapter(cardInfoArray);
         htmlResponse = theAdapter.makeHtml();
-        res.render("search",{html: htmlResponse, rental:lookingForRental  } );
+        res.render("search",{html: htmlResponse, rental:lookingForRental, pages:totalCount, pageNumber:currentPage  } );
         }
    });
 
@@ -241,6 +245,19 @@ app.get("/search",function(req,res){
 
     let newSelector =  JSON.parse(JSON.stringify(generalSelector));
     console.log(newSelector);
+
+    // change cities
+    if(qdata.cityId){
+        newSelector.filters.and[0].equal.cityId = qdata.cityId; 
+    }
+
+    //paging
+    if(qdata.page){
+        if(qdata.page >= 1){
+            newSelector.paging.start = (Number(qdata.page) - 1)*20;
+            currentPage = Number(qdata.page);
+        }
+    }
 
      if(qdata.sort){
         if(qdata.sort === "price-asc"){

@@ -159,6 +159,22 @@ box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.53);
     text-align:right; 
 }
 
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination a{
+    padding:5px;
+    text-decoration: none;
+    color: rgb(143, 143, 143);
+}
+
+.pagination a:hover{
+    color: #ff0011af;
+}
+
+
 /* .cbtn span{
     color: white;
 } */
