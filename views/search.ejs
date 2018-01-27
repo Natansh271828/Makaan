@@ -19,6 +19,7 @@
     <script> 
 
     function URL_add_parameter( param, value){
+        
     var url        = location.href;
     var hash       = {};
     var parser     = document.createElement('a');
@@ -37,7 +38,7 @@
         list.push(key + '=' + hash[key]);
     });
     parser.search = '?' + list.join('&');
-     location.href =  parser.href;
+    location.href =  parser.href;
      //alert(location.href);
     }  
     </script>
@@ -45,7 +46,29 @@
 <body>
     <% include partials/header %>
     <div class="navbar">
+
+          
+
+
         <div>
+
+                <div class="dropdown_sub">
+                        <button class="filter-icon-left">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="17px" height="17px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+                                    <path d="M-612,320v96h96v-96H-612z M-529,403h-70v-70h70V403z"/>
+                                    <path d="M115,131V6H82v125H49v98h33v277h33V229h32v-98H115z M127,209H68v-58h59V209z"/>
+                                    <path d="M274,303V6h-34v297h-33v98h33v105h34V401h31v-98H274z M285,381h-58v-59h58V381z"/>
+                                    <path d="M431,201V6h-33v195h-34v98h34v207h33V299h31v-98H431z M443,279h-59v-58h59V279z"/>
+                                    </svg>
+                                <i class="fa fa-caret-down"></i>
+                         </button>
+                </div> 
+                <div class="dropdown_sub">
+                        <button class="filter-icon">Filters 
+                                <i class="fa fa-caret-down"></i>
+                         </button>
+                </div> 
+
             <a href="javascript:URL_add_parameter('listingType','buy');">Buy</a>
             <a href="javascript:URL_add_parameter('listingType','rental');">Rent</a>
 
@@ -101,24 +124,14 @@
                     </div> 
 
         </div>
-            <div class="dropdown_sub">
-              <button class="dropbtn">Dropdown 
-                <i class="fa fa-caret-down"></i>
-              </button>
-              <div class="dropdown-content">
-                    <a href="#">Relevance</a>
-                    <a href="#">Popularity</a>
-                    <a href="#">Price Desc</a>
-                    <a href="#">Price Asc</a>
-                    <a href="#">Seller Rating</a>
-                    <a href="#">Date Posted</a>
-                </div>
-            </div> 
+          
           </div>
     
 
-    
-     <%- html %>  
+    <div class="result-container">
+            <%- html %> 
+    </div>
+      
 <!-- 
 <div class="card_container">
    <div class="card">

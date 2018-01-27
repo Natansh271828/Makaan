@@ -1,6 +1,7 @@
 .navbar {
     overflow: hidden;
-    background-color: #333;
+    /* background-color: #333; */
+    background-color: #FBFBFB;
     font-family: Arial;
     display: flex;
     justify-content: space-between; 
@@ -10,7 +11,7 @@
     
     float: left;
     font-size: 16px;
-    color: white;
+    color: black;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -25,15 +26,37 @@
     font-size: 16px;    
     border: none;
     outline: none;
-    color: white;
+    /* color: white; */
     padding: 14px 16px;
     background-color: inherit;
     font: inherit;
     margin: 0;
 }
 
+.filter-icon{
+    font-size: 16px;    
+    border: none;
+    outline: none;
+    /* color: white; */
+    padding: 14px 2px;
+    background-color: inherit;
+    font: inherit;
+    margin: 0;
+}
+.filter-icon-left{
+    font-size: 16px;    
+    border: none;
+    outline: none;
+    /* color: white; */
+    padding: 14px 2px;
+    padding-left: 10px;
+    background-color: inherit;
+    font: inherit;
+    margin: 0;
+}
+
 .navbar a:hover, .dropdown_sub:hover .dropbtn {
-    background-color: red;
+    color: red;
 }
 
 .dropdown-content {
@@ -64,4 +87,26 @@
 
 .pricing-container{
     display: flex;
+}
+.x:after {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: inline;
+    content: '\ebae';
+    speak: none;
+    color: #ececec;
+    font-size: 48px;
+    font-family: icomoon;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    margin-right: -10px;
+    margin-top: -2px;
+    z-index: 1;
 }

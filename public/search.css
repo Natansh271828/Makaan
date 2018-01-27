@@ -12,6 +12,10 @@
     width: 715px;
     height: 247px;
 }
+.result-container{
+
+    padding: 30px;  
+}
 
 .card:hover{
     cursor: pointer;
@@ -27,6 +31,10 @@ box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.53);
     background-size: cover;
 }
 
+.card_heading{
+    border-bottom: 1px solid #ECECEC;
+}
+
 .card_right_div{
     padding-left: 15px;
     width: calc(100% - 292px);
@@ -34,17 +42,18 @@ box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.53);
 .card_container{
     display: flex;
     justify-content: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 .card_seller_info{
     display: flex;
     padding: 2px;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     width: 292px;
 }
 .card_seller_image{
     background-size: cover;
+    flex: initial;
     width: 44px;
     height: 44px;
 }
@@ -52,7 +61,10 @@ box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.53);
 .card_highlights{
     display: flex;
     justify-content: space-between;
-    padding: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ECECEC;
+    
 }
 .card_info{
     display: flex;
@@ -63,12 +75,90 @@ box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.53);
     padding: 5px;
 }
 
-.card_description p {
+.card_description p{
     white-space:nowrap;
     overflow:hidden;
 }
 .seller_info{
-    width: 182px;
+    /* width: 182px; */
+    padding-left: 10px;
     overflow: hidden;
+    flex: 2;
     white-space: nowrap;
 }
+.seller_name{
+    display: inline-block;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 18px;
+    max-width: 100%;
+    color: #444;
+    text-transform: capitalize;
+    margin-top: 2px;
+    cursor: pointer;
+}
+.seller_profeciency{
+    margin-top: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #fba511;
+    letter-spacing: -.5px;
+}
+.seller_rating{
+    flex: initial;
+    color: white;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    border-radius: 2px 2px 0;
+    text-align: center;
+    font-size: 11px;
+    background-color: #20a255;
+}
+
+.price_per_sq, .area_unit, .card_description{
+    font-size: .8em;
+    padding: 2px;
+    color: rgb(153, 153, 153);
+}
+
+.card_info{
+    font-size: .8em;
+    padding: 2px;
+}
+
+.location {
+    font-size: 1em;
+    padding: 2px;
+    color: rgb(153, 153, 153);
+}
+
+.total_price, .total_area, .construction_status{
+    font-size: 1.2em;
+}
+
+.cbtn {
+    padding: 6px 20px;
+    border: 1px solid #e81c28;
+    border-radius: 20px;
+    cursor: pointer;
+    height: 36px;
+    line-height: 34px;
+    font-size: 14px;
+}
+.cbtn.cbtn-p {
+    color: white;
+    border-color: #e81c28;
+    background-color: #e81c28;
+}
+
+.card_buttons{  
+    margin-top: 20px;
+    text-align:right; 
+}
+
+/* .cbtn span{
+    color: white;
+} */

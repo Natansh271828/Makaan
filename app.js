@@ -33,7 +33,13 @@ function Template(card){
     this.heading = card.heading;
     this.pricing = card.pricing;
     this.general = card.general;
-    this.description = card.description.substring(0,50);
+
+    if(this.sellerInfo[1].length > 25){
+        this.sellerInfo[1] = this.sellerInfo[1].substring(0,25) + "...";
+    }
+    this.sellerInfo[2] = this.sellerInfo[2].toString().split('_').join(' ');
+
+    this.description = card.description.substring(0,60);
     this.html =  `<div class="card_container"><div class="card">
     <div class="card_left_div">
         <div class="card_image" style="background-image:url('${this.image}')"></div>
@@ -48,9 +54,8 @@ function Template(card){
     </div>
     <div class="card_right_div">
         <div class="card_heading">
-            <div class="card_title">${this.heading[0]}<span>&nbsp${this.heading[5]}&nbsp</span><span>&nbspin&nbsp${this.heading[1]}&nbsp</span>${this.heading[2]}</div> 
+            <div class="card_title"><strong>${this.heading[0]}</strong><span>&nbsp<strong>${this.heading[5]}</strong></span><span>&nbspin&nbsp${this.heading[1]}&nbsp</span>${this.heading[2]}</div> 
             <div class="location">${this.heading[3]},&nbsp${this.heading[4]}</div>
-            <hr>
         </div>
         <div class="card_highlights_wrap">
             <div class="card_highlights">
@@ -64,17 +69,18 @@ function Template(card){
                 </div>
                 <div class="construction_status">${this.pricing[4]}</div>
             </div>
-            <hr>
         </div>
         <div class="card_info">
-            <div class="availability">by 78 dec</div>
-            <div class="bathrooms">${this.general[0]}<span>&nbsp bathrooms</span></div>
-            <div class="floor">2nd of 17th</div>
+            <div class="availability">${this.general[0]}</div>
+            <div class="bathrooms">${this.general[1]}<span>&nbsp bathrooms</span></div>
+            <div class="floor">${this.general[2]}</div>
         </div>
         <div class="card_description"><p>${this.description}...</p></div>
-        <div class="card_buttons">Buttons</div>
-    </div>
-</div> </div>`;
+        <div class="card_buttons">
+        <a class="cbtn cbtn-p" data-call-now="" data-type="openLeadForm" data-seller-type="EXPERT_DEAL_MAKER"> Connect Now</a>
+        </div>
+    </div>  
+</div> </div>`
 
 }
 Template.prototype.returnCard = function(){
@@ -155,10 +161,27 @@ function queryApi(newSelector,res){
                     pricing.push(currentItem.currentListingPrice.pricePerUnitArea);
                     pricing.push(currentItem.property.size);                    
                     pricing.push(currentItem.property.measure);
-                    pricing.push(currentItem.property.project.projectStatus);
+                    if(!lookingForRental){
+                        if(currentItem.constructionStatusId === 1)
+                        pricing.push("Under Construction");
+                        else if(currentItem.constructionStatusId === 2)
+                        pricing.push("Ready to move");
+                        else
+                        pricing.push("N/A");
+                    }
+                    else{
+                        pricing.push(currentItem.furnished);
+                    }
+
                     
                     //general info no of bedrooms etc
-                    generalInfo.push(currentItem.property.bathrooms)
+                    if(lookingForRental)
+                        generalInfo.push(currentItem.securityDeposit + " Deposit");
+                    else
+                        generalInfo.push("info not found");
+                    generalInfo.push(currentItem.property.bathrooms);
+                    generalInfo.push("Floor: " + currentItem.floor + " of " + currentItem.totalFloors);
+
 
                     //decription
                     description = currentItem.description;
@@ -173,7 +196,7 @@ function queryApi(newSelector,res){
 
 }
 
-
+var lookingForRental = false;
 app.get("/search",function(req,res){
 
     let q = url.parse(req.url, true);
@@ -214,8 +237,10 @@ app.get("/search",function(req,res){
     if(qdata.listingType){
         if(qdata.listingType === "rental"){
             newSelector.filters.and[1].equal.listingCategory = ["Rental"];
+            lookingForRental = true;
         }else{
             //do nothing show the normal results 
+            lookingForRental = false;
         }
     }
 
