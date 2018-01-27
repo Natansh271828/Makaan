@@ -70,7 +70,7 @@ function Template(card){
         this.sellerInfo[2] = this.sellerInfo[2].toString().split('_').join(' ');
 
     this.description = card.description.substring(0,60);
-    this.html =  `<div class="card_container" onclick="moveTo('${this.resaleURL}')"><div class="card">
+    this.html =  `<div class="card_container"><div class="card" onclick="moveTo('${this.resaleURL}')" >
     <div class="card_left_div">
         <div class="card_image" style="background-image:url('${this.image}')"></div>
         <div class="card_seller_info">

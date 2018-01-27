@@ -7,10 +7,22 @@
 }
 
 .card{
-    padding: 15px;
     display: flex;
-    width: 715px;
-    height: 247px;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+
+@media screen and (min-width: 700px){
+    .card{
+        flex-direction: row;
+        display: flex;
+        flex-wrap: nowrap;
+        /* background-color: #fba511; */
+        padding: 15px;
+        width: 715px;
+        height: 247px;
+    }
 }
 .result-container{
 

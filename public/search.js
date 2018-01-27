@@ -45,8 +45,8 @@ $(function(){
             if(val)
                 val = val.toLowerCase();            
                 URL_add_parameter('cityId',city[val]);
-            console.log(val);
 
         }
     });
+
 })

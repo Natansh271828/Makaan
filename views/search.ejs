@@ -136,13 +136,11 @@
     
 
     <div class="result-container">
-            <%- html %> 
-            <div class="pagination">
-
-            </div>
+        <%- html %> 
+        <div class="pagination"></div>
     </div>
     
-    <script>
+<script>
         var rental = <%= rental %>;  
         var totalPages = <%= pages %>;
         var currentPage = <%= pageNumber %>;
@@ -210,8 +208,7 @@
             b.innerHTML = ">";
             paginationDiv.appendChild(b);
         }       
-
-    </script>
+</script>
 <!-- 
 <div class="card_container">
    <div class="card">
