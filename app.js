@@ -258,6 +258,9 @@ app.get("/search",function(req,res){
             currentPage = Number(qdata.page);
         }
     }
+    else{
+        currentPage = 1;
+    }
 
      if(qdata.sort){
         if(qdata.sort === "price-asc"){

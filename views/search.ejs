@@ -161,7 +161,7 @@
             paginationDiv.appendChild(a);
 
         }
-        if(currentPage >= 3)
+        if(currentPage >= 3){
         for(let i = currentPage - 2; i <= currentPage; i++){
            
                 let a = document.createElement("a");
@@ -173,6 +173,21 @@
             
             paginationDiv.appendChild(a);
         }
+     }
+     else{
+        for(let i = 1; i <= currentPage; i++){
+           
+           let a = document.createElement("a");
+           a.href = `javascript:URL_add_parameter("page", ${i})`;
+           a.innerHTML = i;
+           if(i === currentPage){
+               a.style.color = "#ff0011af";
+           }
+       
+       paginationDiv.appendChild(a);
+   }
+
+     }
 
         if(currentPage <= pages - 2)
         for(let i = currentPage + 1; i < currentPage + 4; i++){
