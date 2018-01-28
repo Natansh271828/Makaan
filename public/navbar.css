@@ -6,13 +6,13 @@
   font-family: 'entypo', sans-serif;
 }
 
-.navbar {
+.navbar>div {
     overflow: hidden;
     /* background-color: #333; */
     background-color: #FBFBFB;
     font-family: Arial;
     display: flex;
-    justify-content: space-between; 
+    
 }
 
 .navbar a {
@@ -96,25 +96,12 @@
 .pricing-container{
     display: flex;
 }
-.x:after {
-    position: absolute;
-    right: 0;
-    top: 0;
-    display: inline;
-    content: '\ebae';
-    speak: none;
-    color: #ececec;
-    font-size: 48px;
-    font-family: icomoon;
-    font-style: normal;
-    font-weight: 400;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -webkit-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-    margin-right: -10px;
-    margin-top: -2px;
-    z-index: 1;
-}
+
+
+/* @media screen and (max-width: 900px){
+ 
+    .navbar{
+        display: none;
+    }
+
+} */
