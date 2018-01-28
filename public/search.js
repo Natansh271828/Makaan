@@ -49,4 +49,15 @@ $(function(){
         }
     });
 
+    $("#hidden_input").keypress(function(e){
+        var code = e.keyCode || e.which;
+        if(code === 13){
+            let val = $(this).val();
+            if(val)
+                val = val.toLowerCase();            
+                URL_add_parameter('cityId',city[val]);
+
+        }
+    });
+
 })

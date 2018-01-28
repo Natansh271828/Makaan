@@ -147,10 +147,27 @@
         var pages = Math.floor(totalPages/20);
         var paginationDiv = document.getElementsByClassName("pagination")[0];
         //alert(typeof rental);
-        if(rental)
-        document.getElementById('rent').style.color =  "#ff0000";
-        else
-        document.getElementById('buy').style.color = "#ff0000";
+        if(rental){
+            let x = document.getElementsByClassName('rent');
+            for(let i = 0; i < x.length; i++){
+                x[i].style.color = "#ff0000";
+            }
+
+        //document.getElementById('rent').style.color =  "#ff0000";
+        }
+        
+        else{
+            let x = document.getElementsByClassName('buy');
+            for(let i = 0; i < x.length; i++){
+                x[i].style.color = "#ff0000";
+            }
+
+        //document.getElementById('rent').style.color =  "#ff0000";
+        }
+        // document.getElementsByClassName('buy').forEach(element => {
+        //     element.style.color =  "#ff0000";
+        // });
+       // document.getElementById('buy').style.color = "#ff0000";
         if(currentPage > 1){
 
             let a = document.createElement("a");

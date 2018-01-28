@@ -1,9 +1,49 @@
+@import url(http://weloveiconfonts.com/api/?family=entypo); 
 
+[class*="entypo-"]:before {
+    font-family: 'entypo', sans-serif;
+  }
 
-*{
+  *{
     box-sizing:border-box;
     margin: 0px;
     padding: 0px;
+}
+ 
+  
+  .sidenav {
+    display: none;
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+#hidden_input_container{
+    display: none;
+    position: absolute;
+    z-index: 2;
+    height: 50px;
+    justify-content: center;
+    width: 0px;
+    transition: 0.5s;
+}
+
+
+
+.icon_container{
+ display: none;   
+ cursor: pointer;    
+}
+
+#search_icon_container{
+    display: none;
 }
 
 header{
@@ -20,6 +60,13 @@ header{
     position: relative; 
     align-items: center;
 }
+
+.close_btn{
+    display: none;
+    position: absolute;
+}
+
+
 
 /* .dropdown{
     display: none;
@@ -87,4 +134,116 @@ header{
     outline: none;
 }
 
+
+#hidden_input{
+    border: none;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 90%;
+    height: 42px; 
+    font-size: 16px;
+    outline: none;
+}
+
+#close_input_btn, #search_icon_container{
+    cursor: pointer;
+}
+
+@media screen and (max-width: 700px){
+    
+    .icon_container{
+        display: inline;
+        margin-left: 15px;
+    }
+    #input_container{
+        display: none;
+    }
+
+    #search_icon_container{
+        display: inline;
+        margin-right: 15px;
+    }
+
+    header {
+        background-color: blanchedalmond;
+        padding: 0px 0px;
+        
+    }
+
+    #container{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    .sidenav {
+        display: block;
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+    
+    #hidden_input_container{
+        position: absolute;
+        background-color: white;
+        z-index: 2;
+        display: flex;  
+        top: -60px;
+        width: 100%;
+        height: 50px;
+        padding: 10px;
+        justify-content: space-between;
+        align-items: center;
+        transition: 0.5s;
+    }
+
+
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        outline: none;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    .active {
+        background-color: green;
+        color: white;
+    }
+
+    .dropdown-container {
+        display: none;
+        background-color: #262626;
+        padding-left: 8px;
+    }
+    
+    .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+    
+    @media screen and (max-height: 700px) {
+      .sidenav {padding-top: 50px;}
+      .sidenav a {font-size: 14px;}
+    }  
+   
+}
 
