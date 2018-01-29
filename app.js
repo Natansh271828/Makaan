@@ -58,18 +58,30 @@ function Template(card){
     this.pricing = card.pricing;
     this.general = card.general;
     this.resaleURL = card.resaleURL;
-
-    
-
-
-
+    this.description = card.description;
     if(this.sellerInfo[1].length > 25){
         this.sellerInfo[1] = this.sellerInfo[1].substring(0,25) + "...";
     }
     if(this.sellerInfo[2])
         this.sellerInfo[2] = this.sellerInfo[2].toString().split('_').join(' ');
 
-    this.description = card.description.substring(0,60);
+    if(this.description)   
+        this.description = card.description.substring(0,60);
+
+
+
+        if(this.heading[1] && this.heading[1].toString().toLowerCase() !== "project")
+            this.heading[1] = " in " + this.heading[1];
+        else
+            this.heading[1] = "";
+
+        if(this.heading[2] && this.heading[2].toString().toLowerCase() !== "project")
+            this.heading[2] = " " + this.heading[2];
+        else
+            this.heading[2] = "";
+
+
+
     this.html =  `<div class="card_container"><div class="card" onclick="moveTo('${this.resaleURL}')" >
     <div class="card_left_div">
         <div class="card_image" style="background-image:url('${this.image}')"></div>
@@ -84,7 +96,7 @@ function Template(card){
     </div>
     <div class="card_right_div">
         <div class="card_heading">
-            <div class="card_title"><strong>${this.heading[0]}</strong><span>&nbsp<strong>${this.heading[5]}</strong></span><span>&nbspin&nbsp${this.heading[1]}&nbsp</span>${this.heading[2]}</div> 
+            <div class="card_title"><strong>${this.heading[0]}</strong><span>&nbsp<strong>${this.heading[5]}</strong></span><span>${this.heading[1]}</span>${this.heading[2]}</div> 
             <div class="location">${this.heading[3]},&nbsp${this.heading[4]}</div>
         </div>
         <div class="card_highlights_wrap">
@@ -152,7 +164,7 @@ var lookingForRental = false;
 function queryApi(newSelector,res){
 
     let makaan =  webAddress + JSON.stringify(newSelector) + addressEnd;
-    //console.log(makaan);
+    console.log(makaan);
     request(makaan, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             
@@ -170,10 +182,11 @@ function queryApi(newSelector,res){
                     let description;
                     let resaleURL = currentItem.resaleURL;
 
-                    console.log(resaleURL);
+                    //  console.log(resaleURL);
                     /*Seller Info*/
                     sellerInfo.push(currentItem.companySeller.user.profilePictureURL);
-                    sellerInfo.push(currentItem.companySeller.user.fullName);
+                    // sellerInfo.push(currentItem.companySeller.user.fullName);
+                    sellerInfo.push(currentItem.companySeller.company.name);
                     sellerInfo.push(currentItem.listingSellerTransactionStatuses);
                     sellerInfo.push(5.0);
 
@@ -212,14 +225,37 @@ function queryApi(newSelector,res){
                     //general info no of bedrooms etc
                     if(lookingForRental)
                         generalInfo.push(currentItem.securityDeposit + " Deposit");
-                    else
-                        generalInfo.push("info not found");
+                    else{
+                        let yearDate = new Date();
+                        let x = currentItem.possessionDate;
+                        if(x){
+                            let date = new Date(Number(x));
+                             generalInfo.push("Possession By: " + date.getMonth().toString() + " " + date.getFullYear().toString());
+                        }else{
+                             x = currentItem.minConstructionCompletionDate;
+                             let date_2 = new Date(Number(x));
+                             if(!isNaN(yearDate.getFullYear() - date_2.getFullYear()))
+                             generalInfo.push(yearDate.getFullYear() - date_2.getFullYear() + " years old");
+                             else
+                             generalInfo.push("New");
+
+                        }
+                        
+                    }
+                        
                     generalInfo.push(currentItem.property.bathrooms);
-                    generalInfo.push("Floor: " + currentItem.floor + " of " + currentItem.totalFloors);
+                    if(currentItem.totalFloors){
+                        generalInfo.push("Floor: " + currentItem.floor + " of " + currentItem.totalFloors);
+                    }else{
+                        generalInfo.push("Floor: " + currentItem.floor);
+                    }
+                    
 
 
                     //decription
                     description = currentItem.description;
+                    if(i === 0)
+                    console.log(description);
                 cardInfoArray.push(new CardInfo(currentItem.mainImageURL,sellerInfo,heading,pricing,generalInfo,description,resaleURL));
             }  
         let theAdapter = new Adapter(cardInfoArray);
