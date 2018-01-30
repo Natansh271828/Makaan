@@ -6,6 +6,16 @@
   font-family: 'entypo', sans-serif;
 }
 
+/* #current_sort{
+    display: block;
+    font-size: 10px;
+}
+
+#sort_by_btn{
+    padding-top: 13px;
+    padding-bottom: 4px;
+} */
+
 .navbar>div {
     overflow: hidden;
     /* background-color: #333; */

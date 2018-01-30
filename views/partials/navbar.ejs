@@ -27,25 +27,29 @@
                         <span class="entypo-down-open-mini" ></span>
                     </button>
                     <div class="dropdown-content">
-                      <a href="javascript:URL_add_parameter('beds','1');">1 BHK</a>
-                      <a href="javascript:URL_add_parameter('beds','2');">2 BHK</a>
-                      <a href="javascript:URL_add_parameter('beds','3');">3 BHK</a>
-                      <a href="javascript:URL_add_parameter('beds','4plus');">4+ BHK</a>
-                      <a href="javascript:URL_add_parameter('beds','any');">any</a>                       
+                      <a id="beds1" href="javascript:URL_add_parameter('beds','1');">1 BHK</a>
+                      <a id="beds2" href="javascript:URL_add_parameter('beds','2');">2 BHK</a>
+                      <a id="beds3" href="javascript:URL_add_parameter('beds','3');">3 BHK</a>
+                      <a id="beds4plus" href="javascript:URL_add_parameter('beds','4plus');">4+ BHK</a>
+                      <a id="bedsany" href="javascript:URL_add_parameter('beds','any');">any</a>                       
                     </div>
                   </div> 
 
                   <div class="dropdown_sub">
-                        <button class="dropbtn">Sort By 
+                      <div>
+                        <button class="dropbtn" id="sort_by_btn">Sort By 
                             <span class="entypo-down-open-mini" ></span>
+                          <!-- <span id="current_sort"></span> -->
                         </button>
+                        
+                     </div>    
                         <div class="dropdown-content">
-                          <a href="javascript:URL_add_parameter('sort','relevance');">Relevance</a>
-                          <a href="javascript:URL_add_parameter('sort','popularity');">Popularity</a>
-                          <a href="javascript:URL_add_parameter('sort','price-desc');">Price Desc</a>
-                          <a href="javascript:URL_add_parameter('sort','price-asc');">Price Asc</a>
-                          <a href="javascript:URL_add_parameter('sort','rating');">Seller Rating</a>
-                          <a href="javascript:URL_add_parameter('sort','date');">Date Posted</a>
+                          <a id="relevance" href="javascript:URL_add_parameter('sort','relevance');">Relevance</a>
+                          <a id="popularity" href="javascript:URL_add_parameter('sort','popularity');">Popularity</a>
+                          <a id="price-desc" href="javascript:URL_add_parameter('sort','price-desc');">Price Desc</a>
+                          <a id="price-asc" href="javascript:URL_add_parameter('sort','price-asc');">Price Asc</a>
+                          <a id="rating" href="javascript:URL_add_parameter('sort','rating');">Seller Rating</a>
+                          <a id="date" href="javascript:URL_add_parameter('sort','date');">Date Posted</a>
                         </div>
                     </div>     
 

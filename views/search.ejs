@@ -17,35 +17,9 @@
         }
     </style>
 
- <script> 
-
-    // function URL_add_parameter( param, value){
-        
-    // var url        = location.href;
-    // var hash       = {};
-    // var parser     = document.createElement('a');
-    // parser.href    = url;
-    // var parameters = parser.search.split(/\?|&/);
-    // for(var i=0; i < parameters.length; i++) {
-    //     if(!parameters[i])
-    //         continue;
-
-    //     var ary      = parameters[i].split('=');
-    //     hash[ary[0]] = ary[1];
-    // }
-    // hash[param] = value;
-    // var list = [];  
-    // Object.keys(hash).forEach(function (key) {
-    //     list.push(key + '=' + hash[key]);
-    // });
-    // parser.search = '?' + list.join('&');
-    // location.href =  parser.href;
-    //  //alert(location.href);
-    // }  
+ <script>   
 
     function moveTo(a){
-       // alert(a);
-        //location.href = "https://www.makaan.com/" + a;
         var win = window.open("https://www.makaan.com/" + a, '_blank');
         win.focus();
     }
@@ -136,15 +110,29 @@
     
 
     <div class="result-container">
+        <span><strong><%= pages %></strong>&nbspresults&nbspin<strong id="city"></strong></span>
+
         <%- html %> 
         <div class="pagination"></div>
     </div>
     
 <script>
+        var sort = '<%= sort %>';
+        var beds = '<%= beds %>';
+        var city_key = <%= city %>;
         var rental = <%= rental %>;  
-        var totalPages = <%= pages %>;
+        var totalResults = <%= pages %>;
         var currentPage = <%= pageNumber %>;
-        var pages = Math.floor(totalPages/20);
+        var pages = Math.floor(totalResults/20);
+
+        Object.keys(city).forEach(function (key) {
+         if(city[key] === city_key){
+             document.getElementById("city").innerHTML = " " + key;
+         }
+        });
+
+
+
         var paginationDiv = document.getElementsByClassName("pagination")[0];
         //alert(typeof rental);
         if(rental){
@@ -224,7 +212,31 @@
             b.href = `javascript:URL_add_parameter("page", ${currentPage  + 1})`;
             b.innerHTML = ">";
             paginationDiv.appendChild(b);
-        }       
+        }  
+        
+
+       if(beds !== 'undefined'){
+           beds = beds.split(',');
+           console.log(beds);
+           for(let i = 0; i < beds.length; i++){
+               console.log("beds"+beds[i]);
+               let x = document.getElementById("beds"+beds[i]);
+                console.log(x);
+               if(x){
+                   x.style.color = "#ff0000";
+               }
+
+           }
+       }
+
+       if(sort !== 'undefined'){
+           let x = document.getElementById(sort);
+           if(x)
+               x.style.color = "#ff0000";
+           
+       }
+
+        console.log(sort);
 </script>
 <!-- 
 <div class="card_container">

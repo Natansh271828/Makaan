@@ -63,12 +63,10 @@ function Template(card){
         this.sellerInfo[1] = this.sellerInfo[1].substring(0,25) + "...";
     }
     if(this.sellerInfo[2])
-        this.sellerInfo[2] = this.sellerInfo[2].toString().split('_').join(' ');
+        this.sellerInfo[2] = this.sellerInfo[2][0].toString().split('_').join(' ');
 
     if(this.description)   
         this.description = card.description.substring(0,60);
-
-
 
         if(this.heading[1] && this.heading[1].toString().toLowerCase() !== "project")
             this.heading[1] = " in " + this.heading[1];
@@ -160,11 +158,12 @@ app.get("/",function(req,res){
 
 var htmlResponse = `<div>Hello World</div>`;
 var lookingForRental = false;
+var parsedUrl;
 
 function queryApi(newSelector,res){
 
     let makaan =  webAddress + JSON.stringify(newSelector) + addressEnd;
-    console.log(makaan);
+    //console.log(makaan);
     request(makaan, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             
@@ -196,7 +195,6 @@ function queryApi(newSelector,res){
                     heading.push(currentItem.property.bedrooms + " BHK");
                     else
                     heading.push(currentItem.property.bedrooms + " RK");
-
                     heading.push(currentItem.property.project.builder.displayName);
                     heading.push(currentItem.property.project.name);
                     heading.push(currentItem.property.project.locality.label);
@@ -250,17 +248,13 @@ function queryApi(newSelector,res){
                         generalInfo.push("Floor: " + currentItem.floor);
                     }
                     
-
-
                     //decription
                     description = currentItem.description;
-                    if(i === 0)
-                    console.log(description);
                 cardInfoArray.push(new CardInfo(currentItem.mainImageURL,sellerInfo,heading,pricing,generalInfo,description,resaleURL));
             }  
         let theAdapter = new Adapter(cardInfoArray);
         htmlResponse = theAdapter.makeHtml();
-        res.render("search",{html: htmlResponse, rental:lookingForRental, pages:totalCount, pageNumber:currentPage  } );
+        res.render("search",{html: htmlResponse, rental:lookingForRental, pages:totalCount, pageNumber:currentPage, sort:parsedUrl.sort, beds:parsedUrl.beds, city:parsedUrl.cityId } );
         }
    });
 
@@ -272,6 +266,7 @@ app.get("/search",function(req,res){
 
     let q = url.parse(req.url, true);
     let qdata = q.query;
+    parsedUrl = qdata;
     if(Object.keys(qdata).length === 0){
         //general result
         queryApi(generalSelector,res);   
@@ -280,7 +275,7 @@ app.get("/search",function(req,res){
     // if qdata.sort exists
 
     let newSelector =  JSON.parse(JSON.stringify(generalSelector));
-    console.log(newSelector);
+   // console.log(newSelector);
 
     // change cities
     if(qdata.cityId){
@@ -336,12 +331,31 @@ app.get("/search",function(req,res){
             newSelector.filters.and.push({"equal":{"bedrooms":[4,5,6,7,8,9,10]}});
             
         }
-        else if(qdata.beds === "1" || qdata.beds === "2" || qdata.beds === "3" ){
-            newSelector.filters.and.push({"equal":{"bedrooms":[Number(qdata.beds)]}});
-            
-        }else{
+        else if(qdata.beds === 'any'){
             // do nothing
-        }
+          
+      }else{
+
+        // convert beds(string) to numbers
+        var newArr = [];
+          var arr = qdata.beds.split(',');
+         
+          for(let i = 0;  i < arr.length; i++){
+              if(arr[i] === '4plus'){
+                  newArr.push(4);
+                  newArr.push(5);
+                  newArr.push(6);
+                  newArr.push(7);
+                  newArr.push(8);
+                  newArr.push(9);
+                  newArr.push(10);  
+              }else{
+                  newArr.push(Number(arr[i]));
+              }
+          }
+          console.log(newArr);
+          newSelector.filters.and.push({"equal":{"bedrooms":newArr}});
+      }
     }
     
 
