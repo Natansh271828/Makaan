@@ -288,7 +288,7 @@ function queryApi(newSelector,res){
 
         if(totalCount !== 0)
         htmlResponse = theAdapter.makeHtml();
-        else
+        else``
         htmlResponse = `<div>No results found.<br>Try re-setting the filters and try again.</div>`;
 
         res.render("search",{html: htmlResponse, rental:lookingForRental, pages:totalCount, pageNumber:currentPage, sort:parsedUrl.sort, beds:parsedUrl.beds, city:parsedUrl.cityId } );
