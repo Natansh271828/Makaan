@@ -120,8 +120,17 @@ box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.53);
     text-align: center;
     font-size: 11px;
     background-color: #20a255;
+    display: inline-block;
 }
-
+.seller_rating_container {
+    text-align: right;
+}
+.seller_rating_count{
+    font-size: 10px;
+    line-height: 11px;
+    text-align: right;
+    color: #666;
+}
 .price_per_sq, .area_unit, .card_description{
     font-size: .8em;
     padding: 2px;
@@ -144,6 +153,8 @@ box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.53);
 }
 
 .cbtn {
+    position: relative;
+    z-index: 2;
     padding: 6px 20px;
     border: 1px solid #e81c28;
     border-radius: 20px;
@@ -151,7 +162,9 @@ box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.53);
     height: 36px;
     line-height: 34px;
     font-size: 14px;
+    text-decoration: none;
 }
+
 .cbtn.cbtn-p {
     color: white;
     border-color: #e81c28;
@@ -182,6 +195,10 @@ box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.53);
 /* .cbtn span{
     color: white;
 } */
+
+.phone_number{
+    display: none;
+}
 
 @media screen and (max-width: 700px){
    
@@ -218,3 +235,4 @@ box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.53);
         display: inline;
     } 
 }
+

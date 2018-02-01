@@ -26,6 +26,19 @@ function URL_add_parameter( param, value){
         var ary      = parameters[i].split('=');
         hash[ary[0]] = ary[1];
     }
+    if( param === "reset" ){
+        if(hash["cityId"]){
+            let city = hash["cityId"];
+            var llist = [];
+            llist.push("cityId" + '=' + city);
+            parser.search = '?' + llist.join('&');
+            location.href =  parser.href;
+            return;
+        }
+
+    }
+
+    
 
     //in case of beds check if parameter is beds and value is not equal to any or 4plus
     if(param === 'beds' && value !== 'any' ){
@@ -72,7 +85,7 @@ function URL_add_parameter( param, value){
         hash[param] = value;
     }
     
-    var list = [];  
+      var list = [];
     Object.keys(hash).forEach(function (key) {
         list.push(key + '=' + hash[key]);
     });
@@ -82,7 +95,9 @@ function URL_add_parameter( param, value){
     }  
 
 
+
 $(function(){
+
     $("#input").keypress(function(e){
         var code = e.keyCode || e.which;
         if(code === 13){
@@ -90,7 +105,6 @@ $(function(){
             if(val)
                 val = val.toLowerCase();            
                 URL_add_parameter('cityId',city[val]);
-
         }
     });
 
@@ -105,4 +119,11 @@ $(function(){
         }
     });
 
+    $(".cbtn.cbtn-p").on('click',function(e){
+        $(this).siblings(".phone_number").toggle();
+        e.stopPropagation();
+
+    });
+
 })
+

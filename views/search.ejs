@@ -19,9 +19,10 @@
 
  <script>   
 
-    function moveTo(a){
+    function moveTo(a,e){
         var win = window.open("https://www.makaan.com/" + a, '_blank');
         win.focus();
+     
     }
 
 </script>
@@ -124,6 +125,12 @@
         var totalResults = <%= pages %>;
         var currentPage = <%= pageNumber %>;
         var pages = Math.floor(totalResults/20);
+        console.log(pages);     
+
+
+        if(totalResults === 0){
+            document.getElementsByClassName("pagination")[0].style.display = "none";
+        }
 
         Object.keys(city).forEach(function (key) {
          if(city[key] === city_key){
@@ -192,13 +199,14 @@
 
      }
 
-        if(currentPage <= pages - 2)
+        if(currentPage <= pages - 4){
         for(let i = currentPage + 1; i < currentPage + 4; i++){
             let a = document.createElement("a");
             a.href = `javascript:URL_add_parameter("page", ${i})`;
             a.innerHTML = i;
             paginationDiv.appendChild(a);
         }
+    }
 
         if(currentPage != pages){
             let span = document.createElement("span");

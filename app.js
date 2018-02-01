@@ -5,6 +5,7 @@ var webAddress = `https://www.makaan.com/petra/app/v4/listing?selector=`;
 var addressEnd = `&includeNearbyResults=false&includeSponsoredResults=false&sourceDomain=Makaan`;
 var selector = {"fields":["localityId","displayDate","listing","property","project","builder","displayName","locality","suburb","city","state","currentListingPrice","companySeller","company","user","id","name","label","listingId","propertyId","projectId","propertyTitle","unitTypeId","resaleURL","description","postedDate","verificationDate","size","measure","bedrooms","bathrooms","listingLatitude","listingLongitude","studyRoom","servantRoom","pricePerUnitArea","price","localityAvgPrice","negotiable","rk","buyUrl","rentUrl","overviewUrl","minConstructionCompletionDate","maxConstructionCompletionDate","halls","facingId","noOfOpenSides","bookingAmount","securityDeposit","ownershipTypeId","furnished","constructionStatusId","tenantTypes","bedrooms","balcony","floor","totalFloors","listingCategory","possessionDate","activeStatus","type","logo","profilePictureURL","score","assist","contactNumbers","contactNumber","isOffered","mainImageURL","mainImage","absolutePath","altText","title","imageCount","geoDistance","defaultImageId","updatedAt","qualityScore","projectStatus","throughCampaign","addedByPromoter","listingDebugInfo","videos","imageUrl","rk","penthouse","studio","paidLeadCount","listingSellerTransactionStatuses","allocation","allocationHistory","masterAllocationStatus","status","sellerCompanyFeedbackCount","companyStateReraRegistrationId"],"filters":{"and":[{"equal":{"cityId":11}},{"equal":{"listingCategory":["Primary","Resale"]}}]},"paging":{"start":0,"rows":20}};
 
+let totalCount;
 
 // var Template = require("./Classes/Template");
 // var Adapter = require("./Classes/Adapter");
@@ -59,6 +60,10 @@ function Template(card){
     this.general = card.general;
     this.resaleURL = card.resaleURL;
     this.description = card.description;
+    var construction_stat = "Construction Status";
+    if(lookingForRental){
+        construction_stat = "Status"
+    }
     if(this.sellerInfo[1].length > 25){
         this.sellerInfo[1] = this.sellerInfo[1].substring(0,25) + "...";
     }
@@ -79,6 +84,7 @@ function Template(card){
             this.heading[2] = "";
 
 
+            
 
     this.html =  `<div class="card_container"><div class="card" onclick="moveTo('${this.resaleURL}')" >
     <div class="card_left_div">
@@ -89,7 +95,10 @@ function Template(card){
                 <div class="seller_name">${this.sellerInfo[1]}</div>
                 <div class="seller_profeciency">${this.sellerInfo[2]}</div>
             </div>
+            <div class="seller_rating_container">
             <div class="seller_rating">${this.sellerInfo[3]}</div>
+            <div class="seller_rating_count">${this.sellerInfo[5]}</div>
+            </div>
         </div>
     </div>
     <div class="card_right_div">
@@ -107,7 +116,11 @@ function Template(card){
                     <div class="total_area">${this.pricing[2]}</div>
                     <div class="area_unit">area in ${this.pricing[3]}</div>
                 </div>
+                <div class="consturction_status_contaier">
                 <div class="construction_status">${this.pricing[4]}</div>
+                <div class="area_unit">${construction_stat}</div>
+                </div>
+
             </div>
         </div>
         <div class="card_info">
@@ -117,10 +130,12 @@ function Template(card){
         </div>
         <div class="card_description"><p>${this.description}...</p></div>
         <div class="card_buttons">
-        <a class="cbtn cbtn-p" data-call-now="" data-type="openLeadForm" data-seller-type="EXPERT_DEAL_MAKER"> Connect Now</a>
+        <div id="${this.sellerInfo[4]}" class="phone_number">${this.sellerInfo[4]}</div>
+        <a class="cbtn cbtn-p" data-call-now="" data-type="openLeadForm" data-seller-type="EXPERT_DEAL_MAKER" href='javascript:void(0);'> Connect Now</a>
         </div>
     </div>  
 </div> </div>`
+
 
 }
 Template.prototype.returnCard = function(){
@@ -168,7 +183,7 @@ function queryApi(newSelector,res){
         if (!error && response.statusCode == 200) {
             
             let jsonResponse =  JSON.parse(body);
-            let totalCount = jsonResponse.data[0].totalCount;
+            totalCount = jsonResponse.data[0].totalCount;
             jsonResponse = jsonResponse.data[0].facetedResponse;
             
             let cardInfoArray = [];
@@ -182,12 +197,26 @@ function queryApi(newSelector,res){
                     let resaleURL = currentItem.resaleURL;
 
                     //  console.log(resaleURL);
-                    /*Seller Info*/
+                    /*Seller Info*///0
                     sellerInfo.push(currentItem.companySeller.user.profilePictureURL);
                     // sellerInfo.push(currentItem.companySeller.user.fullName);
+                    //1
                     sellerInfo.push(currentItem.companySeller.company.name);
+                    //2
                     sellerInfo.push(currentItem.listingSellerTransactionStatuses);
-                    sellerInfo.push(5.0);
+                    //rating
+                    //3
+                    sellerInfo.push((currentItem.companySeller.company.score/2).toFixed(1));
+                    //contact number
+                    //4
+                    sellerInfo.push(currentItem.companySeller.user.contactNumbers[0].contactNumber);
+                    //number of ratings
+                    //5
+                    if(currentItem.sellerCallRatingCount > 0)
+                    sellerInfo.push(currentItem.sellerCallRatingCount + " Ratings");
+                    else
+                    sellerInfo.push("");
+
 
                     //Heading Info
 
@@ -242,10 +271,13 @@ function queryApi(newSelector,res){
                     }
                         
                     generalInfo.push(currentItem.property.bathrooms);
-                    if(currentItem.totalFloors){
+                    if(currentItem.totalFloors && currentItem.floor){
                         generalInfo.push("Floor: " + currentItem.floor + " of " + currentItem.totalFloors);
-                    }else{
+                    }else if(currentItem.floor){
                         generalInfo.push("Floor: " + currentItem.floor);
+                    }
+                    else{
+                        generalInfo.push("");
                     }
                     
                     //decription
@@ -253,7 +285,12 @@ function queryApi(newSelector,res){
                 cardInfoArray.push(new CardInfo(currentItem.mainImageURL,sellerInfo,heading,pricing,generalInfo,description,resaleURL));
             }  
         let theAdapter = new Adapter(cardInfoArray);
+
+        if(totalCount !== 0)
         htmlResponse = theAdapter.makeHtml();
+        else
+        htmlResponse = `<div>No results found.<br>Try re-setting the filters and try again.</div>`;
+
         res.render("search",{html: htmlResponse, rental:lookingForRental, pages:totalCount, pageNumber:currentPage, sort:parsedUrl.sort, beds:parsedUrl.beds, city:parsedUrl.cityId } );
         }
    });
@@ -353,7 +390,7 @@ app.get("/search",function(req,res){
                   newArr.push(Number(arr[i]));
               }
           }
-          console.log(newArr);
+          //console.log(newArr);
           newSelector.filters.and.push({"equal":{"bedrooms":newArr}});
       }
     }
